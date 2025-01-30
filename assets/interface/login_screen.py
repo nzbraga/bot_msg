@@ -1,5 +1,4 @@
 import tkinter as tk
-from assets.interface.send_screen import send_screen
 
 def open_login():
     login_root = tk.Tk()
@@ -21,7 +20,8 @@ def open_login():
         client = client_entry.get().strip()
         if client:
             login_root.destroy()
-            send_screen(client)
+            from send_screen import open_main_app  # Importação dentro da função para evitar importação circular
+            open_main_app(client)
 
     login_button = tk.Button(login_root, text="Entrar", command=on_login)
     login_button.pack(pady=10)

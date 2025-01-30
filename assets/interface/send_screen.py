@@ -6,7 +6,7 @@ from assets.func.interface.start_whatsapp_thread import start_whatsapp_thread
 from assets.func.interface.send_message import send_message
 from assets.func.interface.refresh_page_sheets import refresh_page_sheets
 
-def send_screen(client):
+def open_main_app(client):
     root = tk.Tk()
     root.title("nZap autoSend")
 
@@ -41,6 +41,14 @@ def send_screen(client):
 
     send_button = tk.Button(root, text="Enviar", command=lambda: send_message(combobox_pagina.current(), message_entry_send.get("1.0", tk.END).strip()))
     send_button.pack(pady=10)
+
+    def voltar_para_login():
+        root.destroy()
+        from login_screen import open_login
+        open_login()
+
+    back_button = tk.Button(root, text="Mudar Cliente", command=voltar_para_login)
+    back_button.pack(pady=10)
 
     status_label = tk.Label(root, text="Aguardando conexão com WhatsApp\n Se necessário escaneie o QR Code", fg="green")
     status_label.pack(pady=10)
