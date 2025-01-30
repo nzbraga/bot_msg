@@ -121,9 +121,9 @@ def start_whatsapp(client):
             driver.get("https://web.whatsapp.com")
 
             
-            update_progress(0, 50, 1, 0.1)  
+            update_progress(0, 50, 2, 0.05)  
                               
-            WebDriverWait(driver,2).until(
+            WebDriverWait(driver,120).until(
                 EC.presence_of_element_located((By.XPATH, '//div[@contenteditable="true"][@data-tab="3"]'))
             )
             
