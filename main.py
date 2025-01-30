@@ -1,4 +1,5 @@
 import os
+<<<<<<< HEAD
 import sys
 import tkinter as tk
 from tkinter import ttk
@@ -33,6 +34,20 @@ def atualizar_paginas():
 # Diretório raiz
 diretorio_raiz = os.getcwd()
 
+=======
+import tkinter as tk
+from tkinter import ttk
+
+from assets.func.utils.list_sheets import list_sheets
+from assets.func.interface.start_whatsapp_thread import start_whatsapp_thread
+from assets.func.interface.send_message import send_message
+from assets.func.interface.refresh_page_sheets import refresh_page_sheets
+
+client = False
+# Diretório raiz
+diretorio_raiz = os.getcwd()
+
+>>>>>>> f94a51e (refactoring)
 root = tk.Tk()
 root.title("nZap autoSend")
 
@@ -55,25 +70,33 @@ combobox_pagina = ttk.Combobox(frame_pagina, values=opcoes_pagina, state="readon
 combobox_pagina.set('Escolha a pagina')
 combobox_pagina.pack(side=tk.LEFT, padx=5)
 
-botao_atualizar = tk.Button(frame_pagina, text="⟳", command=atualizar_paginas, width=3, height=1)
+botao_atualizar = tk.Button(frame_pagina, text="⟳", command=lambda: refresh_page_sheets(diretorio_raiz, combobox_pagina), width=3, height=1)
 botao_atualizar.pack(side=tk.LEFT, padx=5)
 
 message_label = tk.Label(root, text="Mensagem:")
 message_label.pack(pady=5)
 
-message_entry = tk.Text(root, width=40, height=5)
-message_entry.pack(pady=5)
+message_entry_send = tk.Text(root, width=40, height=5)
+message_entry_send.pack(pady=5)
 
-send_button = tk.Button(root, text="Enviar", command=lambda: send_message(combobox_pagina.current()))
+send_button = tk.Button(root, text="Enviar", command=lambda: send_message(combobox_pagina.current(),message_entry_send.get("1.0", tk.END).strip()))
 send_button.pack(pady=10)
 
 status_label = tk.Label(root, text="Aguardando conexão com WhatsApp\n Se necessário escaneie o QR Code", fg="green")
 status_label.pack(pady=10)
 
+<<<<<<< HEAD
 # Se 'client' foi passado, inicializa o WhatsApp
 if client:
     start_whatsapp_thread(client)
 else:
     start_whatsapp_thread('braga')
+=======
+if client:
+    start_whatsapp_thread()
+else:
+    start_whatsapp_thread('braga')
+
+>>>>>>> f94a51e (refactoring)
 
 root.mainloop()

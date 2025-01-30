@@ -49,13 +49,13 @@ def start_whatsapp(client):
             driver.get("https://web.whatsapp.com")
 
             
-            update_progress(0, 50, 1, 0.1)  
+            update_progress(0, 50, 2, 0.05)  
                               
-            WebDriverWait(driver,2).until(
+            WebDriverWait(driver,120).until(
                 EC.presence_of_element_located((By.XPATH, '//div[@contenteditable="true"][@data-tab="3"]'))
             )
             
-            update_progress(70, 90, 1, 0.1)  
+            update_progress(70, 90, 1, 0.05)  
            
             
     except Exception as e:
@@ -96,7 +96,7 @@ def start_whatsapp(client):
         update_progress(70, 90, 1, 0.2) 
 
     finally:
-        update_progress(90, 100, 1 , 0.01)  # Finaliza o progresso
+        update_progress(90, 100, 3 , 0.01)  # Finaliza o progresso
         popup.destroy()
         show_popup("WhatsApp pronto.")
     
