@@ -13,9 +13,14 @@ from assets.func.utils.greeting_define import greeting_define
 from assets.func.utils.process_name import process_name
 from assets.func.utils.pop_up import show_popup, show_popup_bar
 
+def define_dir(client):
+    PROFILE_DIR = os.path.expanduser(f"~/.whatsapp_automation_profile_{client}")  # Altere conforme necessário
+    return PROFILE_DIR
+"""
 
-# Diretório para armazenar o perfil do Chrome
-PROFILE_DIR = os.path.expanduser("~/.whatsapp_automation_profile")  # Altere conforme necessário
+PROFILE_DIR = os.path.expanduser(f"~/.whatsapp_automation_profile")  # Altere conforme necessário
+    
+"""
 driver = None  # Inicializa o driver como None
 number = ''
 message = ''
@@ -91,7 +96,7 @@ def build_msg(page, message ):
         except Exception as e:
             print(f"Mensagem para: {name} NÃO FOI ENVIADA. Erro: {e}")
 
-def start_whatsapp():
+def start_whatsapp(client):
     global driver
 
 
@@ -111,7 +116,7 @@ def start_whatsapp():
             options = webdriver.ChromeOptions() 
             options.page_load_strategy = 'eager'           
             options.add_argument("--headless")            
-            options.add_argument(f"user-data-dir={PROFILE_DIR}")          
+            options.add_argument(f"user-data-dir={define_dir(client)}")          
             driver = webdriver.Chrome(options=options)        
             driver.get("https://web.whatsapp.com")
 
@@ -132,8 +137,8 @@ def start_whatsapp():
         
         driver.quit()
         options = webdriver.ChromeOptions() 
-        #options.page_load_strategy = 'eager'
-        options.add_argument(f"user-data-dir={PROFILE_DIR}")          
+        options.page_load_strategy = 'eager'
+        options.add_argument(f"user-data-dir={define_dir(client)}")          
         driver = webdriver.Chrome(options=options)        
         driver.get("https://web.whatsapp.com")
         
@@ -150,7 +155,7 @@ def start_whatsapp():
         options = webdriver.ChromeOptions() 
         options.page_load_strategy = 'eager'           
         options.add_argument("--headless")            
-        options.add_argument(f"user-data-dir={PROFILE_DIR}")          
+        options.add_argument(f"user-data-dir={define_dir(client)}")          
         driver = webdriver.Chrome(options=options)        
         driver.get("https://web.whatsapp.com")
 
