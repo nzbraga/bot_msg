@@ -1,40 +1,4 @@
 import os
-<<<<<<< HEAD
-import sys
-import tkinter as tk
-from tkinter import ttk
-from threading import Thread
-
-from assets.func.building.build_msg import *
-from assets.func.utils.list_sheets import list_sheets
-
-client = False
-# Verifica se o argumento 'client' foi passado
-if len(sys.argv) > 1 :
-    client = sys.argv[1]   
-else:
-    print('erro cliente')
-
-# Funções do programa
-# Funções do programa
-def start_whatsapp_thread(client):
-    """Inicia a thread do WhatsApp com o client passado"""
-    thread = Thread(target=start_whatsapp, args=(client,))
-    thread.start()
-
-def send_message(page):   
-    message = message_entry.get("1.0", tk.END).strip()
-    build_msg(page, message)
-
-def atualizar_paginas():
-    opcoes_pagina = list_sheets(diretorio_raiz + "/list_name.xlsx")
-    combobox_pagina["values"] = opcoes_pagina
-    combobox_pagina.set('Escolha a pagina')
-
-# Diretório raiz
-diretorio_raiz = os.getcwd()
-
-=======
 import tkinter as tk
 from tkinter import ttk
 
@@ -47,7 +11,6 @@ client = False
 # Diretório raiz
 diretorio_raiz = os.getcwd()
 
->>>>>>> f94a51e (refactoring)
 root = tk.Tk()
 root.title("nZap autoSend")
 
@@ -85,18 +48,11 @@ send_button.pack(pady=10)
 status_label = tk.Label(root, text="Aguardando conexão com WhatsApp\n Se necessário escaneie o QR Code", fg="green")
 status_label.pack(pady=10)
 
-<<<<<<< HEAD
-# Se 'client' foi passado, inicializa o WhatsApp
 if client:
     start_whatsapp_thread(client)
 else:
     start_whatsapp_thread('braga')
-=======
-if client:
-    start_whatsapp_thread()
-else:
-    start_whatsapp_thread('braga')
 
->>>>>>> f94a51e (refactoring)
+
 
 root.mainloop()
