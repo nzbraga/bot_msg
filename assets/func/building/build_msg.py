@@ -25,81 +25,9 @@ driver = None  # Inicializa o driver como None
 number = ''
 message = ''
 
-def build_msg(page, message ): 
-    global driver 
-       
-    if not driver:
-        #print("WhatsApp Web não foi iniciado!")
-       
-        show_popup("WhatsApp Web não foi iniciado!")
-        return
-    if page == -1:
-        #print('Escolha uma Pagina da planilha!')
-        show_popup('Escolha uma Pagina da planilha!')
-        return
-
-    msg = message
-    try:
-        sheet = sheet_info(page)
-    except:
-        print('Erro ao ler planilha')
-        show_popup('Erro ao ler planilha')
-
-    try:
-        for row in sheet.iter_rows(min_row=2):
-               
-            raw_number = row[0].value
-            raw_name = row[1].value
-            birthDay = row[2].value
-
-            if not raw_number:  
-                #if root:
-                    #root.quit()  # Fecha a janela, se necessário
-                break  # Sai do loop
-
-            today = f"{current_day}-{current_month:02}"
-
-            if today == birthDay:
-                
-                # Converte valores para string (se necessário)
-                number = str(raw_number)
-                name = str(process_name(raw_name))
-                
-                hour, minute = get_time()
-                greeting = greeting_define(hour, name)
-
-                message = f"{greeting} {msg}"
-                
-                
-    except:
-        print('Erro ao montar msg')
-        show_popup('Erro ao montar msg')
-        
-    
-    finally:
-        try:    
-                   
-            # Busca pelo contato ou número
-            search_box = driver.find_element(By.XPATH, '//div[@contenteditable="true"][@data-tab="3"]')
-            search_box.click()
-            search_box.clear()
-            search_box.send_keys(number + Keys.ENTER)
-            time.sleep(2)  # Aguarda a tela do contato carregar
-
-            # Digita e envia a message
-            msg_box = driver.find_element(By.XPATH, '//div[@contenteditable="true"][@data-tab="10"]')
-            msg_box.click()
-            msg_box.send_keys(message + Keys.ENTER)
-            #print(f"Mensagem enviada para {name}")
-            time.sleep(5)
-            
-        except Exception as e:
-            print(f"Mensagem para: {name} NÃO FOI ENVIADA. Erro: {e}")
-
 def start_whatsapp(client):
     global driver
-
-
+   
     stop_event = threading.Event()  # Criar o evento de parada
     popup, progress = show_popup_bar("Aguarde o WhatsApp abrir...", stop_event)
 
@@ -172,3 +100,74 @@ def start_whatsapp(client):
         popup.destroy()
         show_popup("WhatsApp pronto.")
     
+    
+def build_msg(page, message ): 
+    global driver 
+       
+    if not driver:
+        #print("WhatsApp Web não foi iniciado!")
+       
+        show_popup("WhatsApp Web não foi iniciado!")
+        return
+    if page == -1:
+        #print('Escolha uma Pagina da planilha!')
+        show_popup('Escolha uma Pagina da planilha!')
+        return
+
+    msg = message
+    try:
+        sheet = sheet_info(page)
+    except:
+        print('Erro ao ler planilha')
+        show_popup('Erro ao ler planilha')
+
+    try:
+        for row in sheet.iter_rows(min_row=2):
+               
+            raw_number = row[0].value
+            raw_name = row[1].value
+            birthDay = row[2].value
+
+            if not raw_number:  
+                #if root:
+                    #root.quit()  # Fecha a janela, se necessário
+                break  # Sai do loop
+
+            today = f"{current_day}-{current_month:02}"
+
+            if today == birthDay:
+                
+                # Converte valores para string (se necessário)
+                number = str(raw_number)
+                name = str(process_name(raw_name))
+                
+                hour, minute = get_time()
+                greeting = greeting_define(hour, name)
+
+                message = f"{greeting} {msg}"
+                
+                
+    except:
+        print('Erro ao montar msg')
+        show_popup('Erro ao montar msg')
+        
+    
+    finally:
+        try:    
+                   
+            # Busca pelo contato ou número
+            search_box = driver.find_element(By.XPATH, '//div[@contenteditable="true"][@data-tab="3"]')
+            search_box.click()
+            search_box.clear()
+            search_box.send_keys(number + Keys.ENTER)
+            time.sleep(2)  # Aguarda a tela do contato carregar
+
+            # Digita e envia a message
+            msg_box = driver.find_element(By.XPATH, '//div[@contenteditable="true"][@data-tab="10"]')
+            msg_box.click()
+            msg_box.send_keys(message + Keys.ENTER)
+            #print(f"Mensagem enviada para {name}")
+            time.sleep(5)
+            
+        except Exception as e:
+            print(f"Mensagem para: {name} NÃO FOI ENVIADA. Erro: {e}")
