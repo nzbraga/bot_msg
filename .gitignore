@@ -1,0 +1,7 @@
+__pycache__/
+build/
+dist/
+list_name.xlsx
+login.spec
+logo_nzap.ico
+main.spec
