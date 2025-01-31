@@ -16,14 +16,11 @@ from assets.func.utils.pop_up import show_popup, show_popup_bar
 def define_dir(client):
     PROFILE_DIR = os.path.expanduser(f"~/.whatsapp_automation_profile_{client}")  # Altere conforme necessário
     return PROFILE_DIR
-"""
 
-PROFILE_DIR = os.path.expanduser(f"~/.whatsapp_automation_profile")  # Altere conforme necessário
-    
-"""
 driver = None  # Inicializa o driver como None
 number = ''
 message = ''
+name = ''
 
 def start_whatsapp(client):
     global driver
@@ -102,7 +99,7 @@ def start_whatsapp(client):
     
     
 def build_msg(page, message ): 
-    global driver 
+    global driver, number, name
        
     if not driver:
         #print("WhatsApp Web não foi iniciado!")
@@ -117,6 +114,8 @@ def build_msg(page, message ):
     msg = message
     try:
         sheet = sheet_info(page)
+        if not sheet:
+            return
     except:
         print('Erro ao ler planilha')
         show_popup('Erro ao ler planilha')
@@ -145,6 +144,24 @@ def build_msg(page, message ):
                 greeting = greeting_define(hour, name)
 
                 message = f"{greeting} {msg}"
+            try:    
+                   
+                # Busca pelo contato ou número
+                search_box = driver.find_element(By.XPATH, '//div[@contenteditable="true"][@data-tab="3"]')
+                search_box.click()
+                search_box.clear()
+                search_box.send_keys(number + Keys.ENTER)
+                time.sleep(2)  # Aguarda a tela do contato carregar
+
+                # Digita e envia a message
+                msg_box = driver.find_element(By.XPATH, '//div[@contenteditable="true"][@data-tab="10"]')
+                msg_box.click()
+                msg_box.send_keys(message + Keys.ENTER)
+                #print(f"Mensagem enviada para {name}")
+                time.sleep(5)
+                
+            except Exception as e:
+                print(f"Mensagem para: {name} NÃO FOI ENVIADA. Erro: {e}")
                 
                 
     except:
@@ -152,22 +169,5 @@ def build_msg(page, message ):
         show_popup('Erro ao montar msg')
         
     
-    finally:
-        try:    
-                   
-            # Busca pelo contato ou número
-            search_box = driver.find_element(By.XPATH, '//div[@contenteditable="true"][@data-tab="3"]')
-            search_box.click()
-            search_box.clear()
-            search_box.send_keys(number + Keys.ENTER)
-            time.sleep(2)  # Aguarda a tela do contato carregar
 
-            # Digita e envia a message
-            msg_box = driver.find_element(By.XPATH, '//div[@contenteditable="true"][@data-tab="10"]')
-            msg_box.click()
-            msg_box.send_keys(message + Keys.ENTER)
-            #print(f"Mensagem enviada para {name}")
-            time.sleep(5)
-            
-        except Exception as e:
-            print(f"Mensagem para: {name} NÃO FOI ENVIADA. Erro: {e}")
+        

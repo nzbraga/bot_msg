@@ -5,3 +5,5 @@ list_name.xlsx
 login.spec
 logo_nzap.ico
 main.spec
+.sessao.json
+.usuarios.json
